@@ -4,7 +4,8 @@
   <input-name></input-name>
   <input-age></input-age>
   <input-mail></input-mail>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <br>
+  <input-button></input-button>
 </form>
 </div>
 </template>
@@ -14,9 +15,12 @@ import Vue from 'vue'
 export default {
 
 }
+import PropertyStore from '../models/store.js'
+import Bus from '../models/bus.js'
+
 var InputName = Vue.extend({
   name: 'input_name',
-  template: '<div class="form-gxroup"><label for="LastName">Last Name</label><input type="text" v-model="sharedState.state.property.name" class="form-control" id="LastName"></div>',
+  template: '<div class="form-gxroup"><label for="Name">Name</label><input type="text" v-model="sharedState.state.property.name" class="form-control" id="Name"></div>',
   data: function () {
     return {
       privateState: {},
@@ -53,16 +57,33 @@ var InputMail = Vue.extend({
 //  コンポーネントを登録
 Vue.component('input-mail', InputMail)
 
-var PropertyStore = {
-  debug: true,
-  state: {
-    property: {
-      name: '',
-      age: '',
-      mail: ''
+// ボタンのコンポーネントを作成
+var InputButton = Vue.extend({
+  name: 'input-button',
+  template: '<button class="btn btn-primary" v-on:click="save">Regist</button>',
+  data: function () {
+    return {
+      privateState: {},
+      sharedState: PropertyStore
+    }
+  },
+  methods: {
+    save: function (event) {
+      console.log(PropertyStore.state.property.name)
+      console.log(PropertyStore.state.property.age)
+      console.log(PropertyStore.state.property.mail)
+
+      // emit
+      Bus.$emit('store-update', 'Add.vue')
+
+      // リダイレクト
+      this.$router.push('/List')
     }
   }
-}
+})
+//  コンポーネントを登録
+Vue.component('input-button', InputButton)
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -2,10 +2,10 @@
   <div id="app">  
     <ul class="nav">
       <li  class="nav-item">
-      <router-link  to="/"><img src="./assets/brand/synergy.svg" width="30" height="30" alt=""></router-link> 
+      <router-link  to="/List"><img src="./assets/brand/synergy.svg" width="30" height="30" alt=""></router-link> 
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">Home</router-link>
+        <router-link class="nav-link" to="/List">Home</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/Add">Add</router-link>

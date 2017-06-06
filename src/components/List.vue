@@ -1,35 +1,44 @@
 <template>
 <div id="app">
   <h3>■ 登録データ一覧</h3>
-  <demo-grid
-    :data="gridData"
-    :columns="gridColumns"
-    :filter-key="searchQuery"
-  ></demo-grid>
+  <grid-component></grid-component>
+
 </div>
 </template>
 
 <script>
+// インポート
+import Vue from 'vue'
+import Bus from '../models/bus.js'
+import {Grid} from '../grid/grid.js'
+import PropertyStore from '../models/store.js'
+
 export default {
-  name: 'List',
-  data () {
+  name: 'List'
+}
+
+var receiveData = []
+
+Vue.component('grid-component', {
+  template: '<demo-grid :data="gridData" :columns="gridColumns" :filter-key="searchQuery"></demo-grid>',
+  data: function () {
     return {
       searchQuery: '',
       gridColumns: ['name', 'age', 'mailAddress'],
-      gridData: [
-        { name: 'Synergy taro', age: '20', mailAddress: 'xxx@xxx' }
-      ]
+      // gridData: [{name: PropertyStore.state.property.name, age: PropertyStore.state.property.age, mailAddress: PropertyStore.state.property.mail}]
+      gridData: receiveData
     }
   }
-}
+})
 
-// インポート
-import Vue from 'vue'
-import {Grid} from '../grid/grid.js'
+// メッセージ受取
+Bus.$on('store-update', (vue) => {
+  console.log(vue)
+  receiveData.push({name: PropertyStore.state.property.name, age: PropertyStore.state.property.age, mailAddress: PropertyStore.state.property.mail})
+})
 
 // コンポーネントを登録
 Vue.component('grid', Grid)
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
